@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Key Exchange Lab</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Key Exchange Lab</div>
+    <nav id="nav" class="nav hidden">
+      <button class="nav-btn" data-view="sim">Simulation</button>
+      <button class="nav-btn" data-view="dash">Dashboard</button>
+      <button class="nav-btn hidden" id="nav-admin" data-view="admin">Admin</button>
+      <span id="whoami" class="whoami"></span>
+      <button id="logout" class="btn-ghost">Log out</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- LOGIN / REGISTER -->
+    <section id="view-auth" class="view">
+      <div class="card auth-card">
+        <h1>Key Exchange Lab</h1>
+        <p class="muted">Compare Diffie-Hellman, ECDH and RSA key exchange and watch a Man-in-the-Middle attack succeed or fail.</p>
+        <div class="tabs">
+          <button id="tab-login" class="tab active" type="button">Log in</button>
+          <button id="tab-register" class="tab" type="button">Register</button>
+        </div>
+        <form id="form-login" class="form">
+          <label for="login-username">Username</label>
+          <input id="login-username" autocomplete="username" required>
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" autocomplete="current-password" required>
+          <button class="btn" type="submit">Log in</button>
+        </form>
+        <form id="form-register" class="form hidden">
+          <label for="reg-username">Username (3 to 30 letters, digits or underscores)</label>
+          <input id="reg-username" autocomplete="username" required>
+          <label for="reg-email">Email</label>
+          <input id="reg-email" type="email" autocomplete="email" required>
+          <label for="reg-password">Password (at least 8 characters)</label>
+          <input id="reg-password" type="password" autocomplete="new-password" required>
+          <button class="btn" type="submit">Create account</button>
+        </form>
+        <p id="auth-error" class="error" role="alert"></p>
+        <p class="muted small">The first account created becomes the administrator.</p>
+      </div>
+    </section>
+
+    <!-- SIMULATION -->
+    <section id="view-sim" class="view hidden">
+      <h2>Simulation and Comparison</h2>
+      <div class="card controls">
+        <div class="field">
+          <label for="protocol">Protocol</label>
+          <select id="protocol"></select>
+        </div>
+        <label class="check"><input type="checkbox" id="opt-mitm"> Enable MITM (Mallory)</label>
+        <label class="check"><input type="checkbox" id="opt-sign"> Require signatures</label>
+        <div class="field">
+          <label for="speed">Speed</label>
+          <select id="speed">
+            <option value="0">Instant</option>
+            <option value="250">Fast</option>
+            <option value="700" selected>Normal</option>
+            <option value="1400">Slow</option>
+          </select>
+        </div>
+        <div class="field wide">
+          <label for="message">Message Alice sends</label>
+          <input id="message" maxlength="200" value="Hello Bob, this is a secret.">
+        </div>
+        <button id="run" class="btn">Start exchange</button>
+      </div>
+      <p id="sim-error" class="error" role="alert"></p>
+      <p id="protocol-note" class="muted small"></p>
+
+      <div class="actors">
+        <div class="actor actor-alice"><h3>Alice</h3><p id="fp-alice" class="fp">No key yet</p></div>
+        <div class="actor actor-mallory dim" id="card-mallory"><h3>Mallory</h3><p id="fp-mallory" class="fp">Not active</p></div>
+        <div class="actor actor-bob"><h3>Bob</h3><p id="fp-bob" class="fp">No key yet</p></div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Live message timeline</h3>
+          <ol id="timeline" class="timeline"><li class="placeholder">Press "Start exchange" to begin.</li></ol>
+        </div>
+        <div class="card" id="verdict-card">
+          <h3>Verdict</h3>
+          <div id="verdict" class="verdict neutral">Nothing run yet.</div>
+          <h3>Metrics</h3>
+          <table class="table small" id="metrics"><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="view-dash" class="view hidden">
+      <h2>Dashboard</h2>
+      <div class="stats">
+        <div class="card stat"><span class="stat-label">Exchanges run</span><span class="stat-value" id="stat-total">0</span></div>
+        <div class="card stat"><span class="stat-label">Attacks that succeeded</span><span class="stat-value" id="stat-succ">0</span></div>
+        <div class="card stat"><span class="stat-label">Attacks detected</span><span class="stat-value" id="stat-det">0</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Benchmark: compare the protocols on this machine</h3>
+        <div class="bench-controls">
+          <label for="bench-runs">Runs per protocol (1 to 200)</label>
+          <input id="bench-runs" type="number" min="1" max="200" value="30">
+          <button id="bench-run" class="btn">Run benchmark</button>
+          <span id="bench-status" class="muted small"></span>
+        </div>
+        <p id="bench-error" class="error" role="alert"></p>
+        <table class="table" id="bench-table">
+          <thead><tr><th>Protocol</th><th>Key generation (ms)</th><th>Shared secret (ms)</th><th>Message 1 (bytes)</th><th>Message 2 (bytes)</th><th>Total (bytes)</th><th>Runs</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="charts">
+          <div><h4>Key generation, median ms (log scale)</h4><div id="chart-keygen" class="bars"></div></div>
+          <div><h4>Shared secret, median ms (log scale)</h4><div id="chart-secret" class="bars"></div></div>
+          <div><h4>Bytes sent in one exchange</h4><div id="chart-bytes" class="bars"></div></div>
+        </div>
+        <p id="bench-machine" class="muted small"></p>
+      </div>
+
+      <div class="card">
+        <h3>Recent sessions</h3>
+        <table class="table" id="sessions-table">
+          <thead><tr><th>When</th><th>Protocol</th><th>MITM</th><th>Signatures</th><th>Outcome</th><th>Keys match</th><th>Time (ms)</th><th>Bytes</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="view-admin" class="view hidden">
+      <h2>Administrator</h2>
+      <div class="card"><h3>Users</h3>
+        <table class="table" id="admin-users"><thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Sessions</th><th>Created</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card"><h3>All sessions</h3>
+        <table class="table" id="admin-sessions"><thead><tr><th>When</th><th>User</th><th>Protocol</th><th>MITM</th><th>Signatures</th><th>Outcome</th></tr></thead><tbody></tbody></table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Educational demonstration only. It has not been security audited and must not be used to protect real data.</footer>
+  <script src="/app.js"></script>
+</body>
+</html>

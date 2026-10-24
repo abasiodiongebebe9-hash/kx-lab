@@ -1,0 +1,6 @@
+Machine: Linux x86_64, Python 3.12.3   runs per protocol: 100
+Protocol       keygen ms  secret ms  msg 1 B  msg 2 B  total B  +sigs B
+DH-2048            0.399      33.71      256      256      512      640
+ECDH-P256          0.023      0.097       65       65      130      258
+ECDH-X25519        0.038      0.039       32       32       64      192
+RSA-2048          62.828      1.143      294      256      550      678

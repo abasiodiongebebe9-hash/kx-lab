@@ -1,0 +1,35 @@
+test_t17_register_and_login (test_api.TestAuth.test_t17_register_and_login) ... ok
+test_t18_wrong_password_and_unknown_user (test_api.TestAuth.test_t18_wrong_password_and_unknown_user) ... ok
+test_t19_duplicate_and_invalid_registration (test_api.TestAuth.test_t19_duplicate_and_invalid_registration) ... ok
+test_t20_password_is_hashed_in_database (test_api.TestAuth.test_t20_password_is_hashed_in_database) ... ok
+test_t21_protected_routes_need_a_valid_token (test_api.TestAuth.test_t21_protected_routes_need_a_valid_token) ... ok
+test_t22_sql_injection_attempt_is_harmless (test_api.TestAuth.test_t22_sql_injection_attempt_is_harmless) ... ok
+test_t23_run_exchange_and_history (test_api.TestExchangesApi.test_t23_run_exchange_and_history) ... ok
+test_t24_detected_attack_is_recorded (test_api.TestExchangesApi.test_t24_detected_attack_is_recorded) ... ok
+test_t25_input_validation (test_api.TestExchangesApi.test_t25_input_validation) ... ok
+test_t26_users_cannot_read_each_others_sessions (test_api.TestExchangesApi.test_t26_users_cannot_read_each_others_sessions) ... ok
+test_t27_admin_routes_require_admin_role (test_api.TestExchangesApi.test_t27_admin_routes_require_admin_role) ... ok
+test_t28_benchmark_run_and_latest (test_api.TestExchangesApi.test_t28_benchmark_run_and_latest) ... ok
+test_t29_security_headers_and_static_files (test_api.TestExchangesApi.test_t29_security_headers_and_static_files) ... ok
+test_t30_no_private_material_stored (test_api.TestExchangesApi.test_t30_no_private_material_stored) ... ok
+test_t11_honest_exchange_all_protocols (test_crypto.TestExchangeEngine.test_t11_honest_exchange_all_protocols) ... ok
+test_t12_mitm_without_signatures_succeeds (test_crypto.TestExchangeEngine.test_t12_mitm_without_signatures_succeeds) ... ok
+test_t13_mitm_with_signatures_is_detected (test_crypto.TestExchangeEngine.test_t13_mitm_with_signatures_is_detected) ... ok
+test_t14_signatures_without_attacker_still_work (test_crypto.TestExchangeEngine.test_t14_signatures_without_attacker_still_work) ... ok
+test_t15_message_sizes (test_crypto.TestExchangeEngine.test_t15_message_sizes) ... ok
+test_t16_unknown_protocol_rejected (test_crypto.TestExchangeEngine.test_t16_unknown_protocol_rejected) ... ok
+test_t01_dh_secrets_match (test_crypto.TestPrimitives.test_t01_dh_secrets_match) ... ok
+test_t02_ecdh_secrets_match (test_crypto.TestPrimitives.test_t02_ecdh_secrets_match) ... ok
+test_t03_rsa_oaep_roundtrip (test_crypto.TestPrimitives.test_t03_rsa_oaep_roundtrip) ... ok
+test_t04_aes_gcm_correct_key (test_crypto.TestPrimitives.test_t04_aes_gcm_correct_key) ... ok
+test_t05_aes_gcm_wrong_key_rejected (test_crypto.TestPrimitives.test_t05_aes_gcm_wrong_key_rejected) ... ok
+test_t06_signature_detects_change (test_crypto.TestPrimitives.test_t06_signature_detects_change) ... ok
+test_t07_hkdf_is_deterministic_and_256_bit (test_crypto.TestPrimitives.test_t07_hkdf_is_deterministic_and_256_bit) ... ok
+test_t08_dh_validation_rejects_bad_values (test_crypto.TestPrimitives.test_t08_dh_validation_rejects_bad_values) ... ok
+test_t09_x25519_rejects_low_order_point (test_crypto.TestPrimitives.test_t09_x25519_rejects_low_order_point) ... ok
+test_t10_p256_rejects_point_not_on_curve (test_crypto.TestPrimitives.test_t10_p256_rejects_point_not_on_curve) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 4.502s
+
+OK
